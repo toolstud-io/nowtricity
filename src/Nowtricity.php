@@ -20,7 +20,7 @@ class Nowtricity
      */
     public function __construct(string $api_key, string $user_agent = null)
     {
-        if(! $api_key){
+        if (! $api_key) {
             throw new MissingApiKeyException('No API key provided');
         }
         $this->api_key = $api_key;
@@ -92,8 +92,8 @@ class Nowtricity
         $response = curl_exec($curl);
         curl_close($curl);
         if ($response) {
-            $response =  json_decode($response, true);
-            if(isset($response['errors'])){
+            $response = json_decode($response, true);
+            if (isset($response['errors'])) {
                 $error_message = $response['errors']['detail'] ?? 'Unknown error';
                 throw match ($error_message) {
                     'Not authorized' => new NotAuthorizedException($error_message),
@@ -101,6 +101,7 @@ class Nowtricity
                     default => new Exception($error_message),
                 }; // end
             }
+
             return $response;
         }
 

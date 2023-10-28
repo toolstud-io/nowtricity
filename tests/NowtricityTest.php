@@ -3,12 +3,15 @@
 namespace ToolstudIo\Nowtricity\Tests;
 
 use PHPUnit\Framework\TestCase;
+use ToolstudIo\Nowtricity\Exceptions\MissingApiKeyException;
 use ToolstudIo\Nowtricity\Exceptions\NotAuthorizedException;
 use ToolstudIo\Nowtricity\Nowtricity;
 
 class NowtricityTest extends TestCase
 {
-    /** @test */
+    /** @test
+     * @throws MissingApiKeyException
+     */
     public function test_can_get_countries()
     {
         $obj = new Nowtricity($this->getApiKey());
@@ -17,6 +20,9 @@ class NowtricityTest extends TestCase
         $this->assertArrayHasKey('belgium', $countries);
     }
 
+    /**
+     * @throws MissingApiKeyException
+     */
     public function test_can_get_current(): void
     {
         $obj = new Nowtricity($this->getApiKey());
@@ -26,6 +32,9 @@ class NowtricityTest extends TestCase
         $this->assertArrayHasKey('emissions', $current);
     }
 
+    /**
+     * @throws MissingApiKeyException
+     */
     public function test_current_for_invalid_country()
     {
         $obj = new Nowtricity($this->getApiKey());
@@ -34,6 +43,9 @@ class NowtricityTest extends TestCase
 
     }
 
+    /**
+     * @throws MissingApiKeyException
+     */
     public function test_current_for_empty_country()
     {
         $obj = new Nowtricity($this->getApiKey());
@@ -44,12 +56,15 @@ class NowtricityTest extends TestCase
 
     public function test_exception_for_invalid_api_key()
     {
-        $obj = new Nowtricity("xxx");
+        $obj = new Nowtricity('xxx');
         $this->expectException(NotAuthorizedException::class);
         $current = $obj->countries();
         $this->assertEmpty($current);
     }
 
+    /**
+     * @throws MissingApiKeyException
+     */
     public function test_can_get_last24(): void
     {
         $obj = new Nowtricity($this->getApiKey());
@@ -59,6 +74,9 @@ class NowtricityTest extends TestCase
         $this->assertArrayHasKey('emissions', $last24);
     }
 
+    /**
+     * @throws MissingApiKeyException
+     */
     public function test_can_get_year(): void
     {
         $obj = new Nowtricity($this->getApiKey());
@@ -77,8 +95,8 @@ class NowtricityTest extends TestCase
 
             return $env['NOWTRICITY_API_KEY'] ?? '';
         }
-        if($_ENV['NOWTRICITY_API_KEY'] ?? '') {
-            return $_ENV['NOWTRICITY_API_KEY'];
+        if (getenv('NOWTRICITY_API_KEY')) {
+            return getenv('NOWTRICITY_API_KEY');
         }
 
         return '';
