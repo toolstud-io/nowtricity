@@ -77,6 +77,9 @@ class NowtricityTest extends TestCase
 
             return $env['NOWTRICITY_API_KEY'] ?? '';
         }
+        if($_ENV['NOWTRICITY_API_KEY'] ?? '') {
+            return $_ENV['NOWTRICITY_API_KEY'];
+        }
 
         return '';
     }
