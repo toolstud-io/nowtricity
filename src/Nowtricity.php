@@ -5,6 +5,7 @@
 namespace ToolstudIo\Nowtricity;
 
 use Exception;
+use ToolstudIo\Nowtricity\Exceptions\MissingApiKeyException;
 use ToolstudIo\Nowtricity\Exceptions\NotAuthorizedException;
 use ToolstudIo\Nowtricity\Exceptions\ThrottledException;
 
@@ -14,8 +15,14 @@ class Nowtricity
 
     private string $user_agent;
 
+    /**
+     * @throws MissingApiKeyException
+     */
     public function __construct(string $api_key, string $user_agent = null)
     {
+        if(! $api_key){
+            throw new MissingApiKeyException('No API key provided');
+        }
         $this->api_key = $api_key;
         $this->user_agent = $user_agent ?? 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) toolstud.io WebAgent';
     }
