@@ -1,6 +1,5 @@
 {
     "name": "toolstud-io/nowtricity",
-    "version": "1.1.2",
     "description": "PHP Library for Nowtricity API",
     "keywords": [
         "toolstud-io",
