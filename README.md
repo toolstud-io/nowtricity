@@ -3,8 +3,6 @@
 Github: 
 ![GitHub tag](https://img.shields.io/github/v/tag/toolstud-io/nowtricity)
 ![Tests](https://github.com/toolstud-io/nowtricity/workflows/Run%20Tests/badge.svg)
-![Psalm](https://github.com/toolstud-io/nowtricity/workflows/Detect%20Psalm%20warnings/badge.svg)
-![Styling](https://github.com/toolstud-io/nowtricity/workflows/Check%20&%20fix%20styling/badge.svg)
 
 Packagist: 
 [![Packagist Version](https://img.shields.io/packagist/v/toolstud-io/nowtricity.svg?style=flat-square)](https://packagist.org/packages/toolstud-io/nowtricity)
