@@ -8,6 +8,8 @@ Packagist:
 [![Packagist Version](https://img.shields.io/packagist/v/toolstud-io/nowtricity.svg?style=flat-square)](https://packagist.org/packages/toolstud-io/nowtricity)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/toolstud-io/nowtricity.svg?style=flat-square)](https://packagist.org/packages/toolstud-io/nowtricity)
 
+![](assets/unsplash.electricity.jpg)
+
 PHP Library for Nowtricity API - based on https://www.nowtricity.com/emissions-api/
 
 ## Installation
