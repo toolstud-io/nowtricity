@@ -35,4 +35,6 @@ jobs:
         run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Execute tests
+        env:
+          NOWTRICITY_API_KEY: ${{ secrets.NOWTRICITY_API_KEY }}
         run: vendor/bin/phpunit
