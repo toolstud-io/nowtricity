@@ -4,11 +4,14 @@
 
 namespace ToolstudIo\Nowtricity;
 
-use PhpParser\Node\Expr\Array_;
+use Exception;
+use ToolstudIo\Nowtricity\Exceptions\NotAuthorizedException;
+use ToolstudIo\Nowtricity\Exceptions\ThrottledException;
 
 class Nowtricity
 {
     private string $api_key;
+
     private string $user_agent;
 
     public function __construct(string $api_key, string $user_agent = null)
@@ -22,20 +25,49 @@ class Nowtricity
         $endpoint = 'https://www.nowtricity.com/api/countries/';
         $data = $this->getAPI($endpoint);
         $list = [];
-        foreach($data['countries'] ?? [] as $country){
+        foreach ($data['countries'] ?? [] as $country) {
             $list[$country['id']] = $country['name'];
         }
+
         return $list;
     }
 
-    private function getAPI(string $endpoint, array $params = []): array
+    public function current(string $country_id): ?array
+    {
+        $endpoint = "https://www.nowtricity.com/api/current-emissions/$country_id/";
+
+        return $this->getAPI($endpoint);
+    }
+
+    public function last24(string $country_id): ?array
+    {
+        $endpoint = "https://www.nowtricity.com/api/current-emissions/$country_id/";
+
+        return $this->getAPI($endpoint);
+    }
+
+    public function year(string $country_id, string $year = null): ?array
+    {
+        $year = $year ?? date('Y');
+        $endpoint = "https://www.nowtricity.com/api/archive/$country_id/$year/";
+
+        return $this->getAPI($endpoint);
+    }
+
+    //--------------------------------------------------------------------------------------------------------------
+    // PRIVATE FUNCTIONS
+    //--------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @throws NotAuthorizedException
+     * @throws ThrottledException
+     * @throws Exception
+     */
+    private function getAPI(string $endpoint): ?array
     {
         $url = $endpoint;
-        if($params){
-            $url .= '?' . http_build_query($params);
-        }
         $curl = curl_init();
-        curl_setopt_array($curl, array(
+        curl_setopt_array($curl, [
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
@@ -45,13 +77,26 @@ class Nowtricity
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_USERAGENT => $this->user_agent,
-            CURLOPT_HTTPHEADER => array(
-                "X-Api-Key: $this->api_key"
-            ),
-        ));
+            CURLOPT_HTTPHEADER => [
+                "X-Api-Key: $this->api_key",
+            ],
+        ]);
 
         $response = curl_exec($curl);
         curl_close($curl);
-        return json_decode($response, true);
+        if ($response) {
+            $response =  json_decode($response, true);
+            if(isset($response['errors'])){
+                $error_message = $response['errors']['detail'] ?? 'Unknown error';
+                throw match ($error_message) {
+                    'Not authorized' => new NotAuthorizedException($error_message),
+                    'Too many requests, over quota' => new ThrottledException($error_message),
+                    default => new Exception($error_message),
+                }; // end
+            }
+            return $response;
+        }
+
+        return null;
     }
 }
