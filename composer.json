@@ -1,17 +1,17 @@
 {
-    "name": "author_username/package_name",
+    "name": "toolstud-io/nowtricity",
     "version": "1.1.1",
-    "description": "package_description",
+    "description": "PHP Library for Nowtricity API",
     "keywords": [
-        "author_username",
-        "package_name"
+        "toolstud-io",
+        "nowtricity"
     ],
-    "homepage": "https://github.com/author_username/package_name",
+    "homepage": "https://github.com/toolstud-io/nowtricity",
     "license": "MIT",
     "authors": [
         {
-            "name": "author_name",
-            "email": "author@email.com",
+            "name": "Peter Forret",
+            "email": "peter@forret.com",
             "role": "Developer"
         }
     ],
@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "package_namespace\\class_name\\": "src"
+            "ToolstudIo\\Nowtricity\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "package_namespace\\class_name\\Tests\\": "tests"
+            "ToolstudIo\\Nowtricity\\Tests\\": "tests"
         }
     },
     "scripts": {
