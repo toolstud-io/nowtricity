@@ -23,7 +23,11 @@ composer require toolstud-io/nowtricity
 ## Usage
 
 ``` php
-$obj = new ToolstudIo\Nowtricity\Nowtricity();
+$obj = new ToolstudIo\Nowtricity\Nowtricity($apiKey);
+$countries = $obj->countries();
+$current = $obj->current('belgium');
+$last24 = $obj->last24('belgium');
+$year = $obj->year('belgium', '2022');
 ```
 
 ## Testing
